@@ -13,7 +13,7 @@ AWS Firewall Manager是一个集中的规则管理平台，在启用AWS Shield A
 ![alt](screenshot/waf.png)
 如上图所示，WAF的安全机制是通过检测访问流量通过时的行为来保护后方的App的安全，即要求所有的访问网络流量必须通过WAF。AWS网络组件包含VPC，ALB，Elastic IP，Security Group等，在一个单一网络环境下的App的网络流量路径大体如下：WAF->ALB->EC2，路径上每一节点应该有严格的开放端口，IP地址白名单、黑名单设置，例如：WAF上侦听443端口，设置ACL黑名单，EC2安全组设置只允许ALB访问，这样才能保证WAF不会被Bypass。不同方案所用的AWS资源可能有所不同，比如其它类型的Load balancer或是非EC2的计算单元，但总体上来说流量路径差别不大。
 ### ACL说明
-WAF对于访问流量的控制是基于Access Control List简称ACL来实现的，创建ACL是按AWS Region划分的，所以如果App部署在某一个Region则相应的ACL也应该部署于同一Region，对于CloudFront支持Global ACL这里暂不讨论，后续会讨论Global ACL有什么优点。
+WAF对于访问流量的控制是基于Access Control List简称ACL来实现的，创建ACL是按AWS Region划分的，所以如果App部署在某一个Region则相应的ACL也应该部署于同一Region，对于CloudFront支持Global ACL这里暂不讨论，最后会说明Global ACL有什么优点。
 ### ACL创建
 进入AWS WAF Console选择Web ACLs，Create Web ACL
 ![alt](https://raw.githubusercontent.com/john-h-luo/app_security/main/screenshot/create_acl.PNG)
