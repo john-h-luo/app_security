@@ -8,6 +8,7 @@ AWS Shield Standard服务向AWS上服务和资源免费开放，不需要额外�
 ### Firewall Manager
 AWS Firewall Manager是一个集中的规则管理平台，在启用AWS Shield Advance之后可以使用，它的功能是可以集中管理同一组织下不同帐户和App的规则，对于它的研究可以放在建立了防火墙的规则和有了初步安全体系之后。
 ## WAF的工作原理：
+### Network Traffic
 对通过WAF访问App的各类请求进行内容检测和验证，确保其安全性与合法性，对非法的请求予以实时阻断，为Web应用提供防护。
 ![alt](https://www.cloudflare.com/img/learning/ddos/glossary/waf/waf.png)
 如上图所示，WAF的安全机制是通过检测访问流量通过时的行为来保护后方的App的安全，即要求所有的访问网络流量必须通过WAF。AWS网络组件包含VPC，ALB，Elastic IP，Security Group等，在一个单一网络环境下的App的网络流量路径大体如下：WAF->ALB->EC2，路径上每一节点应该有严格的开放端口，IP地址白名单、黑名单设置，例如：WAF上侦听443端口，设置ACL黑名单，EC2安全组设置只允许ALB访问，这样才能保证WAF不会被Bypass。不同方案所用的AWS资源可能有所不同，比如其它类型的Load balancer或是非EC2的计算单元，但总体上来说流量路径差别不大。
