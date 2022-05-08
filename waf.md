@@ -1,4 +1,4 @@
-###AWS Web Application Firewall保护云上应用，以下简称WAF。
+!###AWS Web Application Firewall保护云上应用，以下简称WAF。
 本文将介绍WAF的功能，和相关配套使用的工具功能，如AWS Shield，AWS Firewall Manager等，从保护应用的设置和配置方法和费用成本等角度来分析它能提供哪些安全保护，不足的地方怎么补足等。
 首先说结果：
 1. 使用WAF可以有效地针对OWASP TOP 10中定义的App攻击薄弱点提供有效保护，此外WAF提供较细颗粒度的HTTP Header设置规则，可以提供较高效的保护，前提是要足够了解HTTP Header规则，以及在实际场景中利用Header攻击的方法和原理。
