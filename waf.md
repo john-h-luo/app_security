@@ -16,15 +16,18 @@ AWS Firewall Manager是一个集中的规则管理平台，在启用AWS Shield A
 WAF对于访问流量的控制是基于Access Control List简称ACL来实现的，创建ACL是按AWS Region划分的，所以如果App部署在某一个Region则相应的ACL也应该部署于同一Region，对于CloudFront支持Global ACL这里暂不讨论，后续会讨论Global ACL有什么优点。
 ### ACL创建
 进入AWS WAF Console选择Web ACLs，Create Web ACL
+![alt](screenshot/create_acl.png)
 #### ACL命名和添加资源
 输入必要的参数name，其它的参数会自动生成如CloudWatch metric name，如果没有特别的命名规则不必要修改，Resource Type选择Regional resources，然后选择App所在的Region，最后添加AWS resource即WAF保护的后方的App，由于WAF的设计结构只支持添加API Gateway，ALB，AppSync，所以如果App部署在EC2上则首先要将EC2添加到ALB中，再从WAF添加ALB。如果App是部署在EKS平台，则在创建service时会生成ALB（具体的service定义看kubernetes的设计）
+![alt](screenshot/add_resource.png)
 #### 添加ACL Rule
 点击Add rules可选择添加AWS Managed Rules或是第三方服务商提供的Rule，如F5，Imperva
 WCUs全称Web ACL rule capacity units used，按每条Rule的处理算力计算，越复杂的Rule数值则越大，总体上限1500，如一个ACL超过此上限则需要通过升级渠道将需要提交给AWS后台处理。
 Default ACL action
 支持的Action如下Allow，Block。在Allow的情况下还可以添加自定义的HTTP Request Header，在后方的App可以对自定义Header做处理规则，需要足够了解此类规则。
+![alt](screenshot/add_rules.png)
 #### Set rule priority
-设置优先级的顺序，调整和优化规则执行的效率。例如Allow和Block规则的优化，举个例子：如果有一个规则是Block那么优先级较高，这样命中规则即Block，而避免其它规则放行后，最终还是被Block。
+设置优先级的顺序，调整和优化规则执行的效率。例如Allow和Block规则的优化，举个例子：如果有一个规则是Block那么优先级较高，这样命中规则即Block，而避免其它规则放行后，最终还是被Block降低效率。
 #### Configure metrics
 这里的Metrics和创建ACL的有所不同，这里的是Rule规则的Metric，举例说明：ACL Metric是指从这条ACL中通过了总的流量，而Rule是指这里命中这个规则的Metric。另外启用Request sampling requests会提供一些Metric的信息切片，可以从信息切片中了解到ACL的情况。
 #### Review and create web ACL
@@ -39,3 +42,5 @@ Default ACL action
 包含第三方安全厂商设计定义的Rule，每个厂商有不同的安全架构设计经验所以不同的Rule侧重点不同，整体来看如果采用第三方厂商的Rule选择一个与自家的App相似度最高的即足够，然后再使用AWS Managed rule，或是自定义Rule补足。第三方厂商Rule的费用方面除了支持AWS ACL rule的费用之外，还需要支持Subscription的费用。
 ## Shield Advance
 在开始时已经讲过Advance可以保护6，7层攻击，所以这里不再复述，这里主要讲SRT support和其它重要的概念。SRT是AWS Shield Response Team的简称，它的作用是在预防DDoS攻击的发生，从发现攻击开始SRT团队的安全工程师就会介入，帮助抵抗攻击和制定Service Available的方案来保护服务可用性。除了SRT之外，如果App配置了自动扩展，在被攻击时被动发生的自动扩展，和因应对DDoS时扩展资源来保证服务可用性，所产生的费用AWS也会免除。
+## CloudFront和Global ACL
+CloudFront是建立在Edge computing的基础之上的，相当于说在每个启用了Edge的AWS Region会建一个Edge节点。它对于WAF的影响来说，在于如果使用了CloudFront服务就会获得Edge的安全防护，从App的访问流量路径来看，要首先经过AWS Edge节点，这样可以利用AWS平台的资源和安全优势来抵挡攻击，等于在你的App的WAF之前再额外加一层AWS平台的保护。
