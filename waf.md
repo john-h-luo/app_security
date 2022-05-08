@@ -9,4 +9,4 @@ AWS Shield Standard服务向AWS上服务和资源免费开放，不需要额外�
 AWS Firewall Manager是一个集中的规则管理平台，在启用AWS Shield Advance之后可以使用，它的功能是可以集中管理同一组织下不同帐户和App的规则，对于它的研究可以放在建立了防火墙的规则和有了初步安全体系之后。
 ## WAF的工作原理：
 对通过WAF访问App的各类请求进行内容检测和验证，确保其安全性与合法性，对非法的请求予以实时阻断，为Web应用提供防护。
-![alt 属性文本](https://www.cloudflare.com/img/learning/ddos/glossary/waf/waf.png)
+![alt](https://www.cloudflare.com/img/learning/ddos/glossary/waf/waf.png)
