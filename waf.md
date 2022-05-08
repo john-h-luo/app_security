@@ -24,7 +24,7 @@ WAF对于访问流量的控制是基于Access Control List简称ACL来实现的�
 点击Add rules可选择添加AWS Managed Rules或是第三方服务商提供的Rule，如F5，Imperva。关于应该添加什么样的Rule，和Rule的功能说明，后续会添加新内容进来说明。\
 WCUs全称Web ACL rule capacity units used，按每条Rule的处理算力计算，越复杂的Rule数值则越大，总体上限1500，如一个ACL超过此上限则需要通过升级渠道将需要提交给AWS后台处理。
 Default ACL action
-支持的Action如下Allow，Block。在Allow的情况下还可以添加自定义的HTTP Request Header，在后方的App可以对自定义Header做处理规则，需要足够了解此类规则。
+支持的Action如下Allow，Block。在Allow的情况下还可以添加自定义的HTTP Request Header，在后方的App可以对自定义Header做处理规则，这类配置需要足够了解HTTP规则。
 ![alt](https://github.com/john-h-luo/app_security/blob/main/screenshot/add_rules.PNG?raw=true)
 #### Set rule priority
 设置优先级的顺序，调整和优化规则执行的效率。例如Allow和Block规则的优化，举个例子：如果有一个规则是Block那么优先级较高，这样命中规则即Block，而避免其它规则放行后，最终还是被Block降低效率。
