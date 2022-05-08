@@ -37,7 +37,7 @@ Default ACL action
 ### IP sets / Regex pattern sets
 相当于设置一个IP地址集，在设置Rule时可直接引用，例如Block一个IP地址，或是某个HTTP请求中命中Regex。
 ### Rule groups
-创建自定义Rule，相对于AWS Managed rule自定义程度更高，但需要对网络安全理解程序较高。可创建Regular规则，和Rate-based规则。Regular规则支持定义一个Statement和AND/OR/NOT逻辑运算，例如定义一个Statement限定网络地址从除中国以外的全部Block，Statement支持按国家，IP地址，标签，Request Header，Cookie，URI Path，BODY等，所以要求会比较高。而Rate-based规则在Regular规则之上支持执行Rate规则，输入一个Rate limit假设100，例如同一个IP地址在一分钟内创建超过100个Request就会执行定义的Action，例如Block，要求CAPTCHA，或是Count，Count的作用是添加计数，它主要用于处理通过一条Rule很难就定义的Request，例如一个请求来源于一个可疑的IP地址，所以就先给它加一个Count，在后续其它的Rule处理时可以根据计数来衡量整体的安全分数，最终根据整体Count来决定是否Block。
+创建自定义Rule，相对于AWS Managed rule自定义程度更高，但需要对网络安全理解程序较高。可创建Regular规则，和Rate-based规则。Regular规则支持定义一个Statement和AND/OR/NOT逻辑运算，例如定义一个Statement限定网络地址从除中国以外的全部Block，Statement支持按国家，IP地址，标签，Request Header，Cookie，URI Path，BODY等，所以自定义程度比较高。而Rate-based规则在Regular规则之上支持执行Rate规则，输入一个Rate limit假设100，例如同一个IP地址在一分钟内创建超过100个Request就会执行定义的Action，例如Block，要求CAPTCHA，或是Count，Count的作用是添加计数，它主要用于处理通过一条Rule很难就定义的Request，例如一个请求来源于一个可疑的IP地址，所以就先给它加一个Count，在后续其它的Rule处理时可以根据计数来衡量整体的安全分数，最终根据整体Count来决定是否Block。
 ### AWS Marketplace
 包含第三方安全厂商设计定义的Rule，每个厂商有不同的安全架构设计经验所以不同的Rule侧重点不同，整体来看如果采用第三方厂商的Rule选择一个与自家的App相似度最高的即足够，然后再使用AWS Managed rule，或是自定义Rule补足。第三方厂商Rule的费用方面除了支持AWS ACL rule的费用之外，还需要支持Subscription的费用。
 ## Shield Advance
