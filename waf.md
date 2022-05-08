@@ -1,4 +1,4 @@
-## AWS Web Application Firewall保护云上应用，以下简称WAF。
+## AWS Web Application Firewall简称WAF，使用WAF保护应用
 本文将介绍WAF的功能，和相关配套使用的工具功能，如AWS Shield，AWS Firewall Manager等，从保护应用的设置和配置方法和费用成本等角度来分析它能提供哪些安全保护，不足的地方怎么补足等。
 首先说结果：
 ### OWASP 10
