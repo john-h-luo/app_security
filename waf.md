@@ -31,4 +31,7 @@ Default ACL action
 创建ACL的最后一步，Review设置，和做最后的修改，一切验证通过后选择Create web ACL。之后在Web ACLs界面可以查看图表，和Sampled requests。
 ### Bot Control
 控制网络爬虫，内容爬虫和SEO搜索引擎排名的行为，可设置Allow或Block。启用Bot control需要在添加ACL Rule中添加AWS managed rule列表中的Bot control rule。
-
+### IP sets / Regex pattern sets
+相当于设置一个IP地址集，在设置Rule时可直接引用，例如Block一个IP地址，或是某个HTTP请求中命中Regex。
+### Rule groups
+创建自定义Rule，相对于AWS Managed rule自定义程度更高，但需要对网络安全理解程序较高。可创建Regular规则，和Rate-based规则。Regular规则支持定义一个Statement和AND/OR/NOT逻辑运算，例如定义一个Statement限定网络地址从除中国以外的全部Block，Statement支持按国家，IP地址，标签，Request Header，Cookie，URI Path，BODY等，所以要求会比较高。而Rate-based规则在Regular规则之上支持执行Rate规则，输入一个Rate limit假设100，例如同一个IP地址在一分钟内创建超过100个Request就会执行定义的Action，例如Block，要求CAPTCHA，或是Count，Count的作用是添加计数，它主要用于处理通过一条Rule很难就定义的Request，例如一个请求来源于一个可疑的IP地址，所以就先给它加一个Count，在后续其它的Rule处理时可以根据计数来衡量整体的安全分数，最终根据整体Count来决定是否Block。
