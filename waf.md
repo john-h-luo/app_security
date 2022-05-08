@@ -16,6 +16,7 @@ AWS Firewall Manager是一个集中的规则管理平台，在启用AWS Shield A
 WAF对于访问流量的控制是基于Access Control List简称ACL来实现的，创建ACL是按AWS Region划分的，所以如果App部署在某一个Region则相应的ACL也应该部署于同一Region，对于CloudFront支持Global ACL这里暂不讨论，后续会讨论Global ACL有什么优点。
 ### ACL创建
 进入AWS WAF Console选择Web ACLs，Create Web ACL
+![alt](screenshot/waf.png)
 ![alt](screenshot/create_acl.png)
 #### ACL命名和添加资源
 输入必要的参数name，其它的参数会自动生成如CloudWatch metric name，如果没有特别的命名规则不必要修改，Resource Type选择Regional resources，然后选择App所在的Region，最后添加AWS resource即WAF保护的后方的App，由于WAF的设计结构只支持添加API Gateway，ALB，AppSync，所以如果App部署在EC2上则首先要将EC2添加到ALB中，再从WAF添加ALB。如果App是部署在EKS平台，则在创建service时会生成ALB（具体的service定义看kubernetes的设计）
