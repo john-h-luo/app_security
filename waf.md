@@ -27,7 +27,7 @@ WAF对于访问流量的控制是基于Access Control List简称ACL来实现的�
 ![alt](https://github.com/john-h-luo/app_security/blob/main/screenshot/core_rule.PNG?raw=true)
 3. AWS-AWSManagedRulesSQLiRuleSet 这条规则是补充缺少SQL注入攻击的保护。
 4. AWS-AWSManagedRulesBotControlRuleSet 这条规则是针对网络爬虫的规则，可以设置Allow，Block。\
-5. 其它厂商的Rule，有许多其它的厂商提供的规则可供选择。总体来说是厂商的规则是依靠自身长期安全防护的实践经验来设置Rule的设计和阈值设定，优点是开箱即用，安全厂商的经验是比较丰富的，缺点是不能对部分规则微调。、
+5. 其它厂商的Rule，有许多其它的厂商提供的规则可供选择。总体来说是厂商的规则是依靠自身长期安全防护的实践经验来设置Rule的设计和阈值设定，优点是开箱即用，安全厂商的经验是比较丰富的，缺点是不能对部分规则微调。\
 WCUs全称Web ACL rule capacity units used，按每条Rule的处理算力计算，越复杂的Rule数值则越大，总体上限1500，如一个ACL超过此上限则需要通过升级渠道将需要提交给AWS后台处理。
 Default ACL action
 支持的Action如下Allow，Block。在Allow的情况下还可以添加自定义的HTTP Request Header，在后方的App可以对自定义Header做处理规则，这类配置需要足够了解HTTP规则。
