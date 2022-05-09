@@ -21,7 +21,12 @@ WAF对于访问流量的控制是基于Access Control List简称ACL来实现的�
 输入必要的参数name，其它的参数会自动生成如CloudWatch metric name，如果没有特别的命名规则不必要修改，Resource Type选择Regional resources，然后选择App所在的Region，最后添加AWS resource即WAF保护的后方的App，由于WAF的设计结构只支持添加API Gateway，ALB，AppSync，所以如果App部署在EC2上则首先要将EC2添加到ALB中，再从WAF添加ALB。如果App是部署在EKS平台，则在创建service时会生成ALB（具体的service定义看kubernetes的设计）
 ![alt](https://github.com/john-h-luo/app_security/blob/main/screenshot/add_resource.PNG?raw=true)
 #### 添加ACL Rule
-点击Add rules可选择添加AWS Managed Rules或是第三方服务商提供的Rule，如F5，Imperva。关于应该添加什么样的Rule，和Rule的功能说明，后续会添加新内容进来说明。\
+点击Add rules可选择添加AWS Managed Rules或是第三方服务商提供的Rule，如F5，Imperva。关于应该添加哪些Rule，和Rule的功能说明，这里只做基础的介绍，后续会根据对App的了解添加更多的自定义Rule进来。\
+1. AWS-AWSManagedRulesAmazonIpReputationList 这条规则按名称理解，即是屏蔽AWS数据库中记录的不良记录的IP地址，基于AWS平台的优势这个Rule是非常有必要的。
+2. AWSManagedRulesCommonRuleSet 这条规则主要作用是保护Web App，它以OWASP的原理为基础。进入详细页面可以看到它具体的规则设置，可以发现配置了哪些保护规则，也可以对照OWASP参考是否还缺少其它规则，如有缺少可以再添加Rule来补充，如下图没有针对SQL注入的规则，可以再添加一条防注入规则。
+![alt](https://github.com/john-h-luo/app_security/blob/main/screenshot/core_rule.PNG?raw=true)
+3. AWS-AWSManagedRulesSQLiRuleSet 这条规则是补充缺少SQL注入攻击的保护。
+4. AWS-AWSManagedRulesBotControlRuleSet 这条规则是针对网络爬虫的规则，可以设置Allow，Block。
 WCUs全称Web ACL rule capacity units used，按每条Rule的处理算力计算，越复杂的Rule数值则越大，总体上限1500，如一个ACL超过此上限则需要通过升级渠道将需要提交给AWS后台处理。
 Default ACL action
 支持的Action如下Allow，Block。在Allow的情况下还可以添加自定义的HTTP Request Header，在后方的App可以对自定义Header做处理规则，这类配置需要足够了解HTTP规则。
